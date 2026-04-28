@@ -1,5 +1,4 @@
 import datetime
-from random import sample
 from uuid import uuid4
 
 from django.utils.timezone import now

@@ -100,14 +100,14 @@ class ReadingViewSet(ReadWriteSerializerMixin, viewsets.ModelViewSet):
     @action(detail=False, methods=["GET"])
     def export(self, request):
         """Export readings in JSON or CSV format with filtering support.
-        
+
         Supports filtering by:
         - format: 'json' or 'csv' (default: 'json')
         - date_from: Start date/time (ISO format, inclusive)
         - date_to: End date/time (ISO format, inclusive)
         """
         export_format = request.query_params.get("export_format", "json").lower()
-        
+
         if export_format not in ["json", "csv"]:
             msg = "Unsupported export format. Use 'json' or 'csv'."
             raise ValidationError({"format": msg})

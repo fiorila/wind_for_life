@@ -73,7 +73,7 @@ class ReadingDetailSerializer(ReadingMinimalSerializer):
 
 class ReadingExportSerializer(serializers.Serializer):
     """Serializer for reading exports using domain mapper.
-    
+
     Following DDD, delegates transformation to ReadingExportMapper
     to keep serialization logic separate from domain models.
     """

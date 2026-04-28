@@ -11,7 +11,6 @@ import io
 
 from wind_for_life.apps.anemometers.exports import ReadingExporter
 
-
 # -------------------
 # EXPORTER TESTS
 # -------------------
@@ -35,7 +34,7 @@ def test_reading_exporter_to_csv():
 
     rows = list(csv.DictReader(io.StringIO(csv_content)))
 
-    assert len(rows) == 2
+    assert len(rows) == 2  # noqa: PLR2004
     assert rows[0]["id"] == "123"
     assert rows[0]["speed"] == "10.5"
     assert rows[1]["id"] == "456"

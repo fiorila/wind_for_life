@@ -256,18 +256,19 @@ def test_reading_creation_fails_for_invalid_anemometer(auth_client):
 @pytest.mark.django_db
 def test_filter_date_from():
     """Test filtering readings from a start date."""
-    from django.utils.timezone import now
     from datetime import timedelta
-    
+
+    from django.utils.timezone import now
+
     current_time = now()
     old_reading = ReadingFactory(recorded_at=current_time - timedelta(days=10))
     recent_reading = ReadingFactory(recorded_at=current_time - timedelta(days=1))
-    
+
     qs = Reading.objects.all()
     date_from = (current_time - timedelta(days=5)).isoformat()
     filterset = ReadingFilterSet(data={"date_from": date_from}, queryset=qs)
     filtered_qs = filterset.qs
-    
+
     assert recent_reading in filtered_qs
     assert old_reading not in filtered_qs
 
@@ -275,18 +276,19 @@ def test_filter_date_from():
 @pytest.mark.django_db
 def test_filter_date_to():
     """Test filtering readings up to an end date."""
-    from django.utils.timezone import now
     from datetime import timedelta
-    
+
+    from django.utils.timezone import now
+
     current_time = now()
     old_reading = ReadingFactory(recorded_at=current_time - timedelta(days=10))
     recent_reading = ReadingFactory(recorded_at=current_time - timedelta(days=1))
-    
+
     qs = Reading.objects.all()
     date_to = (current_time - timedelta(days=5)).isoformat()
     filterset = ReadingFilterSet(data={"date_to": date_to}, queryset=qs)
     filtered_qs = filterset.qs
-    
+
     assert old_reading in filtered_qs
     assert recent_reading not in filtered_qs
 
@@ -294,24 +296,25 @@ def test_filter_date_to():
 @pytest.mark.django_db
 def test_filter_date_range():
     """Test filtering readings with both date_from and date_to."""
-    from django.utils.timezone import now
     from datetime import timedelta
-    
+
+    from django.utils.timezone import now
+
     current_time = now()
     too_old = ReadingFactory(recorded_at=current_time - timedelta(days=20))
     in_range = ReadingFactory(recorded_at=current_time - timedelta(days=10))
     too_recent = ReadingFactory(recorded_at=current_time - timedelta(days=1))
-    
+
     qs = Reading.objects.all()
     date_from = (current_time - timedelta(days=15)).isoformat()
     date_to = (current_time - timedelta(days=5)).isoformat()
-    
+
     filterset = ReadingFilterSet(
         data={"date_from": date_from, "date_to": date_to},
         queryset=qs,
     )
     filtered_qs = filterset.qs
-    
+
     assert in_range in filtered_qs
     assert too_old not in filtered_qs
     assert too_recent not in filtered_qs

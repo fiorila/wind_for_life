@@ -50,7 +50,9 @@ def test_export_readings_as_json(auth_client):
     assert response["Content-Disposition"] == 'attachment; filename="readings.json"'
     assert len(response.data) >= 1
 
-    matching_reading = next(item for item in response.data if item["id"] == str(reading.pk))
+    matching_reading = next(
+        item for item in response.data if item["id"] == str(reading.pk)
+    )
     assert matching_reading["anemometer_id"] == str(reading.anemometer.pk)
     assert matching_reading["anemometer_name"] == reading.anemometer.name
 
@@ -98,7 +100,7 @@ def test_export_requires_authentication(api_client):
     """Test export endpoint requires authentication."""
     url = reverse("api:readings-export")
     response = api_client.get(url)
-    
+
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
@@ -113,11 +115,11 @@ def test_export_with_date_from_filter(auth_client):
     current_time = now()
     old_reading = ReadingFactory(recorded_at=current_time - timedelta(days=10))
     recent_reading = ReadingFactory(recorded_at=current_time - timedelta(days=1))
-    
+
     url = reverse("api:readings-export")
     date_from = (current_time - timedelta(days=5)).isoformat()
     response = auth_client.get(url, {"export_format": "json", "date_from": date_from})
-    
+
     assert response.status_code == status.HTTP_200_OK
     ids = [item["id"] for item in response.data]
     assert str(recent_reading.pk) in ids
@@ -130,11 +132,11 @@ def test_export_with_date_to_filter(auth_client):
     current_time = now()
     old_reading = ReadingFactory(recorded_at=current_time - timedelta(days=10))
     recent_reading = ReadingFactory(recorded_at=current_time - timedelta(days=1))
-    
+
     url = reverse("api:readings-export")
     date_to = (current_time - timedelta(days=5)).isoformat()
     response = auth_client.get(url, {"export_format": "json", "date_to": date_to})
-    
+
     assert response.status_code == status.HTTP_200_OK
     ids = [item["id"] for item in response.data]
     assert str(old_reading.pk) in ids
@@ -148,13 +150,15 @@ def test_export_with_date_range(auth_client):
     too_old = ReadingFactory(recorded_at=current_time - timedelta(days=20))
     in_range = ReadingFactory(recorded_at=current_time - timedelta(days=10))
     too_recent = ReadingFactory(recorded_at=current_time - timedelta(days=1))
-    
+
     url = reverse("api:readings-export")
     date_from = (current_time - timedelta(days=15)).isoformat()
     date_to = (current_time - timedelta(days=5)).isoformat()
-    
-    response = auth_client.get(url, {"export_format": "json", "date_from": date_from, "date_to": date_to})
-    
+
+    response = auth_client.get(
+        url, {"export_format": "json", "date_from": date_from, "date_to": date_to},
+    )
+
     assert response.status_code == status.HTTP_200_OK
     ids = [item["id"] for item in response.data]
     assert str(in_range.pk) in ids
@@ -168,14 +172,14 @@ def test_export_csv_with_date_filter(auth_client):
     current_time = now()
     old_reading = ReadingFactory(recorded_at=current_time - timedelta(days=10))
     recent_reading = ReadingFactory(recorded_at=current_time - timedelta(days=1))
-    
+
     url = reverse("api:readings-export")
     date_from = (current_time - timedelta(days=5)).isoformat()
     response = auth_client.get(url, {"export_format": "csv", "date_from": date_from})
-    
+
     assert response.status_code == status.HTTP_200_OK
     rows = list(csv.DictReader(io.StringIO(response.content.decode("utf-8"))))
     ids = [row["id"] for row in rows]
-    
+
     assert str(recent_reading.pk) in ids
     assert str(old_reading.pk) not in ids

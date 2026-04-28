@@ -15,7 +15,6 @@ from wind_for_life.apps.anemometers.tests.factories import (
     ReadingFactory,
 )
 
-
 # ---------------------------------
 # ANEMOMETER EXPORT MAPPER TESTS
 # ---------------------------------
@@ -61,12 +60,12 @@ def test_reading_export_mapper_all_fields():
     """Test ReadingExportMapper transforms all fields correctly."""
     anemometer = AnemometerFactory(name="Test Anemometer")
     reading = ReadingFactory(speed=15.5, anemometer=anemometer)
-    
+
     result = ReadingExportMapper.to_dict(reading)
 
     # Check all required fields are present and have correct values
     assert result["id"] == str(reading.id)
-    assert result["speed"] == 15.5
+    assert result["speed"] == 15.5  # noqa: PLR2004
     assert "recorded_at" in result
     assert result["anemometer_id"] == str(reading.anemometer.id)
     assert result["anemometer_name"] == "Test Anemometer"
