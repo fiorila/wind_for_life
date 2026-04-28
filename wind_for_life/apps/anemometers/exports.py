@@ -45,4 +45,3 @@ class ReadingExporter:
             writer.writerow(row)
 
         return output.getvalue()
-

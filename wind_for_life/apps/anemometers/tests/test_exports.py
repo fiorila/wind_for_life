@@ -45,4 +45,3 @@ def test_reading_exporter_to_csv_empty():
     csv_content = ReadingExporter.to_csv([])
 
     assert csv_content == ""
-

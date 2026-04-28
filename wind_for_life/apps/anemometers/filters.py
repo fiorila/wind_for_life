@@ -18,4 +18,3 @@ class ReadingFilterSet(filters.FilterSet):
     class Meta:  # type: ignore  # noqa: PGH003
         model = Reading
         fields = ["anemometer", "date_from", "date_to"]
-

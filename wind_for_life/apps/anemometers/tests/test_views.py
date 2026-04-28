@@ -156,7 +156,8 @@ def test_export_with_date_range(auth_client):
     date_to = (current_time - timedelta(days=5)).isoformat()
 
     response = auth_client.get(
-        url, {"export_format": "json", "date_from": date_from, "date_to": date_to},
+        url,
+        {"export_format": "json", "date_from": date_from, "date_to": date_to},
     )
 
     assert response.status_code == status.HTTP_200_OK
