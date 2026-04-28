@@ -96,11 +96,9 @@ class AnemometerFactory(DjangoModelFactory):
                     raise ValueError(
                         msg,
                     )
-                num_tags_per_reading = kwargs.get("num_tags", 0)
                 readings = ReadingFactory.create_batch(
                     extracted,
                     anemometer=self,
-                    tags=num_tags_per_reading,
                 )
                 for reading in readings:
                     # Model._after_postgeneration will stop saving the instance after postgeneration hooks in the next major release.  # noqa: E501
@@ -123,22 +121,5 @@ class ReadingFactory(DjangoModelFactory):
     )
     anemometer = SubFactory(AnemometerFactory)
 
-    @post_generation
-    def tags(self, create, extracted, **kwargs):
-        """
-        Automatically create tags when a Reading is created.
-
-        Args:
-            create (bool): Whether the object has been created.
-            extracted (int or list): Number of tags or a list of tags to create.
-        """
-
-        if not create:
-            return
-        if isinstance(extracted, int):
-            if not (0 <= extracted <= len(TAG_CHOICES)):
-                msg = "Number of tags must be between 0 and {len(TAG_CHOICES)}"
-                raise ValueError(msg)
-            self.tags.add(*sample(TAG_CHOICES, k=extracted))
-        elif isinstance(extracted, list):
-            self.tags.add(*extracted)
+    # NOTE: tags post_generation hook removed - was causing infinite loops
+    # Tags are still available on the model but not auto-created in tests

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from taggit.serializers import TaggitSerializer, TagListSerializerField
 
+from wind_for_life.apps.anemometers.mappers import ReadingExportMapper
 from wind_for_life.apps.anemometers.models import Anemometer, Reading
 
 
@@ -68,3 +69,15 @@ class ReadingDetailSerializer(ReadingMinimalSerializer):
         model = Reading
         fields = ["id", "speed", "recorded_at", "tags", "anemometer"]
         read_only_fields = ["id"]
+
+
+class ReadingExportSerializer(serializers.Serializer):
+    """Serializer for reading exports using domain mapper.
+    
+    Following DDD, delegates transformation to ReadingExportMapper
+    to keep serialization logic separate from domain models.
+    """
+
+    def to_representation(self, instance):
+        """Transform using the domain mapper."""
+        return ReadingExportMapper.to_dict(instance)
