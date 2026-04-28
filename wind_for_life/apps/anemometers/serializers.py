@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from taggit.serializers import TaggitSerializer, TagListSerializerField
 
-from wind_for_life.apps.anemometers.mappers import ReadingExportMapper
 from wind_for_life.apps.anemometers.models import Anemometer, Reading
 
 
@@ -72,12 +71,18 @@ class ReadingDetailSerializer(ReadingMinimalSerializer):
 
 
 class ReadingExportSerializer(serializers.Serializer):
-    """Serializer for reading exports using domain mapper.
+    """Serializer for reading exports.
 
-    Following DDD, delegates transformation to ReadingExportMapper
-    to keep serialization logic separate from domain models.
+    Transforms Reading instances into export-ready dictionaries
+    with flattened anemometer data.
     """
 
     def to_representation(self, instance):
-        """Transform using the domain mapper."""
-        return ReadingExportMapper.to_dict(instance)
+        """Transform Reading to export dictionary."""
+        return {
+            "id": str(instance.id),
+            "speed": instance.speed,
+            "recorded_at": instance.recorded_at.isoformat(),
+            "anemometer_id": str(instance.anemometer.id),
+            "anemometer_name": instance.anemometer.name,
+        }
