@@ -5,6 +5,16 @@ from wind_for_life.apps.anemometers.models import Reading
 
 
 class ReadingFilterSet(filters.FilterSet):
+    date_from = filters.DateTimeFilter(
+        field_name="recorded_at",
+        lookup_expr="gte",
+        label="Filter readings recorded on or after this date (ISO format)",
+    )
+    date_to = filters.DateTimeFilter(
+        field_name="recorded_at",
+        lookup_expr="lte",
+        label="Filter readings recorded on or before this date (ISO format)",
+    )
     tags_any = filters.CharFilter(
         method="filter_tags_any",
         label="Comma-separated tag list, any of these tags (OR)",
@@ -43,6 +53,6 @@ class ReadingFilterSet(filters.FilterSet):
 
         return queryset.model.objects.filter(pk__in=readings_with_exact_tags)
 
-    class Meta:
+    class Meta:  # type: ignore  # noqa: PGH003
         model = Reading
-        fields = []
+        fields = ["anemometer", "date_from", "date_to"]

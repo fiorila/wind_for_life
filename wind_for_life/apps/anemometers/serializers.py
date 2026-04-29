@@ -68,3 +68,21 @@ class ReadingDetailSerializer(ReadingMinimalSerializer):
         model = Reading
         fields = ["id", "speed", "recorded_at", "tags", "anemometer"]
         read_only_fields = ["id"]
+
+
+class ReadingExportSerializer(serializers.Serializer):
+    """Serializer for reading exports.
+
+    Transforms Reading instances into export-ready dictionaries
+    with flattened anemometer data.
+    """
+
+    def to_representation(self, instance):
+        """Transform Reading to export dictionary."""
+        return {
+            "id": str(instance.id),
+            "speed": instance.speed,
+            "recorded_at": instance.recorded_at.isoformat(),
+            "anemometer_id": str(instance.anemometer.id),
+            "anemometer_name": instance.anemometer.name,
+        }
