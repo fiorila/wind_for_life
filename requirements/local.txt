@@ -40,15 +40,9 @@ click==8.2.1
     #   uvicorn
 colorama==0.4.6
     # via
-    #   click
     #   djlint
-    #   ipython
-    #   pytest
-    #   qrcode
-    #   sphinx
     #   sphinx-autobuild
-    #   tqdm
-coverage==7.8.2
+coverage==7.14.1
     # via
     #   -r requirements/local.in
     #   django-coverage-plugin
@@ -71,6 +65,7 @@ django==5.1.11
     #   django-allauth
     #   django-anymail
     #   django-cors-headers
+    #   django-coverage-plugin
     #   django-crispy-forms
     #   django-debug-toolbar
     #   django-extensions
@@ -83,21 +78,21 @@ django==5.1.11
     #   djangorestframework
     #   drf-nested-routers
     #   drf-spectacular
-django-allauth==65.9.0
+django-allauth[mfa]==65.18.0
     # via -r requirements/base.in
 django-anymail==13.0
     # via -r requirements/production.in
-django-cors-headers==4.7.0
+django-cors-headers==4.9.0
     # via -r requirements/base.in
-django-coverage-plugin==3.1.0
+django-coverage-plugin==3.2.2
     # via -r requirements/local.in
-django-crispy-forms==2.4
+django-crispy-forms==2.5
     # via
     #   -r requirements/base.in
     #   crispy-bootstrap5
 django-debug-toolbar==5.2.0
     # via -r requirements/local.in
-django-environ==0.12.0
+django-environ==0.13.0
     # via -r requirements/base.in
 django-extensions==4.1
     # via -r requirements/local.in
@@ -107,7 +102,7 @@ django-model-utils==5.0.0
     # via -r requirements/base.in
 django-redis==5.4.0
     # via -r requirements/base.in
-django-stubs==5.2.0
+django-stubs[compatible-mypy]==5.2.0
     # via
     #   -r requirements/local.in
     #   djangorestframework-stubs
@@ -115,20 +110,20 @@ django-stubs-ext==5.2.1
     # via django-stubs
 django-taggit==6.1.0
     # via -r requirements/base.in
-djangorestframework==3.16.0
+djangorestframework==3.17.1
     # via
     #   -r requirements/base.in
     #   drf-nested-routers
     #   drf-spectacular
 djangorestframework-stubs==3.16.0
     # via -r requirements/local.in
-djlint==1.36.4
+djlint==1.38.2
     # via -r requirements/local.in
 docutils==0.21.2
     # via sphinx
-drf-nested-routers==0.94.2
+drf-nested-routers==0.95.0
     # via -r requirements/base.in
-drf-spectacular==0.28.0
+drf-spectacular==0.29.0
     # via -r requirements/base.in
 editorconfig==0.17.1
     # via
@@ -136,7 +131,7 @@ editorconfig==0.17.1
     #   jsbeautifier
 executing==2.2.0
     # via stack-data
-factory-boy==3.3.2
+factory-boy==3.3.3
     # via -r requirements/local.in
 faker==37.4.0
     # via factory-boy
@@ -150,7 +145,7 @@ gunicorn==23.0.0
     # via -r requirements/production.in
 h11==0.16.0
     # via uvicorn
-hiredis==3.2.1
+hiredis==3.4.0
     # via -r requirements/base.in
 identify==2.6.12
     # via pre-commit
@@ -202,15 +197,14 @@ packaging==25.0
     # via
     #   gunicorn
     #   pytest
-    #   pytest-sugar
     #   sphinx
 parso==0.8.4
     # via jedi
 pathspec==0.12.1
     # via djlint
-pdbpp==0.11.6
+pdbpp==0.12.1
     # via -r requirements/local.in
-pexpect==4.9.0 ; sys_platform != 'emscripten' and sys_platform != 'win32'
+pexpect==4.9.0
     # via ipython
 pillow==11.2.1
     # via -r requirements/base.in
@@ -218,17 +212,17 @@ platformdirs==4.3.8
     # via virtualenv
 pluggy==1.6.0
     # via pytest
-pre-commit==4.2.0
+pre-commit==4.6.0
     # via -r requirements/local.in
 prompt-toolkit==3.0.51
     # via ipython
-psycopg==3.2.9
+psycopg[c]==3.3.4
     # via
     #   -r requirements/local.in
     #   -r requirements/production.in
-psycopg-c==3.2.9 ; implementation_name != 'pypy'
+psycopg-c==3.3.4
     # via psycopg
-ptyprocess==0.7.0 ; sys_platform != 'emscripten' and sys_platform != 'win32'
+ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.3
     # via stack-data
@@ -241,18 +235,16 @@ pygments==2.19.2
     #   pdbpp
     #   pytest
     #   sphinx
-pyreadline3==3.5.4 ; python_full_version < '3.13' and sys_platform == 'win32'
-    # via fancycompleter
-pyrepl==0.11.3.post1 ; python_full_version < '3.13'
+pyrepl==0.11.3.post1
     # via fancycompleter
 pytest==8.4.0
     # via
     #   -r requirements/local.in
     #   pytest-django
     #   pytest-sugar
-pytest-django==4.11.1
+pytest-django==4.12.0
     # via -r requirements/local.in
-pytest-sugar==1.0.0
+pytest-sugar==1.1.1
     # via -r requirements/local.in
 python-slugify==8.0.4
     # via -r requirements/base.in
@@ -284,7 +276,7 @@ rpds-py==0.26.0
     # via
     #   jsonschema
     #   referencing
-ruff==0.11.13
+ruff==0.15.16
     # via -r requirements/local.in
 six==1.17.0
     # via
@@ -347,10 +339,7 @@ typing-extensions==4.14.1
     #   referencing
     #   starlette
 tzdata==2025.2
-    # via
-    #   django
-    #   faker
-    #   psycopg
+    # via faker
 uritemplate==4.2.0
     # via drf-spectacular
 urllib3==2.5.0
@@ -370,5 +359,7 @@ wcwidth==0.2.13
     # via prompt-toolkit
 websockets==15.0.1
     # via sphinx-autobuild
-werkzeug==3.1.3
-    # via -r requirements/local.in
+werkzeug[watchdog]==3.1.8
+    # via
+    #   -r requirements/local.in
+    #   werkzeug
